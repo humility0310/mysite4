@@ -1,41 +1,32 @@
 package com.bit2016.mysite.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.bit2016.mysite.repository.BoardDao;
+import com.bit2016.mysite.service.BoardService;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
 
-	
 	@Autowired
-	private BoardDao boardDao;
-	
+	private BoardService boardService;
+
 	@RequestMapping("")
-	public String list(Model model){
-		//model.addAttribute("p", p);
-		//model.addAttribute("kwd", kwd);
-		
-		//Map<String, Object> map = boardService.getList(page, Keyworkd);
-		
-		//boardDao.getList(kwd, p, 5);
-//		map.put( "list", list );
-//		
-//		model.addAttribute( "totalCount", totalCount );
-//		model.addAttribute( "listSize", LIST_SIZE );
-//		model.addAttribute( "currentPage", currentPage );
-//		model.addAttribute( "beginPage", beginPage );
-//		model.addAttribute( "endPage", endPage );
-//		model.addAttribute( "prevPage", prevPage );
-//		model.addAttribute( "nextPage", nextPage );
-//		model.addAttribute( "keyword", keyword );
-		boardDao.getList("", 1, 5);
-		return "/board/list";
+	public String index(@RequestParam(value = "p", required = true, defaultValue = "1") Integer page,
+			@RequestParam(value = "kwd", required = true, defaultValue = "") String keyword, Model model) {
+
+		Map<String, Object> map = boardService.getList(page, keyword);
+		model.addAttribute("map", map);
+		return "board/list";
+
 	}
+
+	// public String
+
 }
