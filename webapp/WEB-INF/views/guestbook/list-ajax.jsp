@@ -7,11 +7,8 @@
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath }/assets/css/guestbook.css"
-	rel="stylesheet" type="text/css">
-<link rel="stylesheet"
-	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/assets/css/guestbook.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style type="text/css">
 #dialog-delete-form p {
 	padding: 10px;
@@ -36,8 +33,7 @@
 	font-size: 1.0em;
 }
 </style>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 	var isEnd = false;
@@ -75,8 +71,7 @@
 		}
 		++page;
 		$.ajax({
-			url : "${pageContext.request.contextPath }/guestbook/api/list?p="
-					+ page,
+			url : "${pageContext.request.contextPath }/guestbook/api/list?p=" + page,
 			type : "get",
 			dataType : "json",
 			data : "",
@@ -119,13 +114,10 @@
 									// 삭제 요청
 									$
 											.ajax({
-												url : "${pageContext.request.contextPath }/api/guestbook?a=ajax-delete&no="
-														+ no
-														+ "&password="
-														+ password,
-												type : "get",
+												url : "${pageContext.request.contextPath }/guestbook/api/delete",
+												type : "post",
 												dataType : "json",
-												data : "",
+												data : "&no=" + no + "&password=" + password,
 												success : function(response) {
 													if (response.result != "success") {
 														console
@@ -146,17 +138,13 @@
 														return;
 													}
 													// 삭제 성공
-													$("#gb-" + response.data)
-															.remove();
-													dialogDelete
-															.dialog("close");
+													$("#gb-" + response.data).remove();
+													dialogDelete.dialog("close");
 												},
 												error : function(jqXHR, status,
 														e) {
-													console.error(status + ":"
-															+ e);
-													dialogDelete
-															.dialog("close");
+													console.error(status + ":" + e);
+													dialogDelete.dialog("close");
 												}
 											});
 								},
@@ -211,30 +199,27 @@
 								return;
 							}
 
-							$
-									.ajax({
-										url : "${pageContext.request.contextPath }/api/guestbook",
-										type : "post",
-										dataType : "json",
-										data : "a=ajax-add" + "&name=" + name
-												+ "&password=" + password
-												+ "&content=" + content,
-										success : function(response) {
-											if (response.result != "success") {
-												console.error(response.message);
-												return;
-											}
-
-											// rendering
-											render(response.data, true);
-
-											// 폼지우기
-											$("#add-form")[0].reset();
-										},
-										error : function(jqXHR, status, e) {
-											console.error(status + ":" + e);
+							$.ajax({
+									url : "${pageContext.request.contextPath }/guestbook/api/insert",
+									type : "post",
+									dataType : "json",
+									data : "a=ajax-add" + "&name=" + name + "&password=" + password + "&content=" + content,
+									success : function(response) {
+										if (response.result != "success") {
+											console.error(response.message);
+											return;
 										}
-									});
+
+										// rendering
+										render(response.data, true);
+
+										// 폼지우기
+										$("#add-form")[0].reset();
+									},
+									error : function(jqXHR, status, e) {
+										console.error(status + ":" + e);
+									}
+								});
 						});
 
 		$(window).scroll(function() {
@@ -261,9 +246,9 @@
 		<div id="content">
 			<div id="guestbook">
 				<h1>방명록</h1>
-				<form id="add-form" action="" method="post">
-					<input type="text" id="input-name" placeholder="이름"> <input
-						type="password" id="input-password" placeholder="비밀번호">
+				<form id="add-form" action="{pageContext.request.contextPath }/api/guestbook/add" method="post">
+					<input type="text" id="input-name" placeholder="이름"> 
+					<input type="password" id="input-password" placeholder="비밀번호">
 					<textarea id="tx-content" placeholder="내용을 입력해 주세요."></textarea>
 					<input type="submit" value="보내기" />
 				</form>
@@ -273,11 +258,9 @@
 				<p class="validateTips normal">작성시 입력했던 비밀번호를 입력하세요.</p>
 				<p class="validateTips error" style="display: none">비밀번호가 틀립니다.</p>
 				<form>
-					<input type="password" id="password-delete" value=""
-						class="text ui-widget-content ui-corner-all"> <input
-						type="hidden" id="hidden-no" value=""> <input
-						type="submit" tabindex="-1"
-						style="position: absolute; top: -1000px">
+					<input type="password" id="password-delete" value="" class="text ui-widget-content ui-corner-all"> 
+					<input type="hidden" id="hidden-no" value=""> 
+					<input type="submit" tabindex="-1" style="position: absolute; top: -1000px">
 				</form>
 			</div>
 			<div id="dialog-message" title="" style="display: none">

@@ -5,6 +5,7 @@
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.bit2016.mysite.vo.UserVo" />
 		<typeAlias alias="guestbookvo" type="com.bit2016.mysite.vo.GuestbookVo" />
+		<!--<typeAlias alias="boardvo" type="com.bit2016.mysite.vo.BoardVo" />-->
 	</typeAliases>
 
 	<mappers>

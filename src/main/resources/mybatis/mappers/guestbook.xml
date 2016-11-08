@@ -49,4 +49,15 @@
 		]]>
 	</insert>
 
+	<select id="getByNo" parameterType="long" resultType="guestbookvo">
+	<![CDATA[
+		select no, 
+			   name, 
+			   content, 
+			   to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') as regDate 
+	 	  from guestbook 
+	 	 where no = #{no}
+	]]>
+	</select>
+
 </mapper>

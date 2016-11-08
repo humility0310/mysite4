@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +31,31 @@ public class GuestbookController {
 		map.put("result", "success");
 		map.put("data", list);
 
+		return map;
+	}
+
+	@ResponseBody
+	@RequestMapping("/insert")
+	public Map<String, Object> insert(@ModelAttribute GuestbookVo vo) {
+
+		GuestbookVo vo2 = guestbookService.writeMessage2(vo);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", "success");
+		map.put("data", vo2);
+
+		return map;
+	}
+
+	@ResponseBody
+	@RequestMapping("/delete")
+	public Map<String, Object> delete(@ModelAttribute GuestbookVo vo) {
+		guestbookService.deleteMessage(vo);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", "success");
+		map.put("data", vo.getNo());
+		
 		return map;
 	}
 }

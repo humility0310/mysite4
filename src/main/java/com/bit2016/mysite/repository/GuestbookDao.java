@@ -29,5 +29,9 @@ public class GuestbookDao {
 	public List<GuestbookVo> getList(int page) {
 		return sqlSession.selectList("guestbook.getListByPage", page);
 	}
-
+	
+	public GuestbookVo getByNo(Long no){
+		GuestbookVo vo = sqlSession.selectOne("guestbook.getByNo", no);
+		return vo;
+	}
 }

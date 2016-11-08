@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bit2016.mysite.service.BoardService;
+import com.bit2016.mysite.vo.BoardVo;
 
 @Controller
 @RequestMapping("/board")
@@ -27,6 +28,9 @@ public class BoardController {
 
 	}
 
-	// public String
-
+	@RequestMapping("/view")
+	public BoardVo view(Long boardNo ){
+		
+		return null;
+	}
 }

@@ -1,13 +1,16 @@
 package com.bit2016.mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bit2016.mysite.vo.BoardVo;
@@ -15,23 +18,21 @@ import com.bit2016.mysite.vo.BoardVo;
 @Repository
 public class BoardDao {
 	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패 :" + e);
-		}
-		return conn;
-	}
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
+	@Autowired
+	private DataSource datasource;
+	
+	
+
 	
 	public void insert( BoardVo vo ) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = getConnection();
+			conn = datasource.getConnection();
 			
 			if( vo.getGroupNo() == null ) {
 				/* 새글 등록 */
@@ -83,7 +84,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = datasource.getConnection();
 			
 			String sql = "delete from board where no = ? and users_no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -116,7 +117,7 @@ public class BoardDao {
 		ResultSet rs = null;
 		
 		try {
-			conn = getConnection();
+			conn = datasource.getConnection();
 			if( "".equals( keyword ) ) {
 				String sql = "select count(*) from board";
 				pstmt = conn.prepareStatement(sql);
@@ -164,7 +165,7 @@ public class BoardDao {
 		ResultSet rs = null;
 		
 		try {
-			conn = getConnection();
+			conn = datasource.getConnection();
 			
 			if( "".equals( keyword ) ) {
 				String sql = 
@@ -250,7 +251,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = datasource.getConnection();
 			
 			String sql = "update board set order_no = order_no + 1 where group_no = ? and order_no > ?";
 			pstmt = conn.prepareStatement(sql);
@@ -280,7 +281,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = datasource.getConnection();
 			
 			String sql = "update board set hit = hit + 1 where no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -309,7 +310,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = datasource.getConnection();
 			
 			String sql = "update board set title=?, content=? where no=? and users_no=?";
 			pstmt = conn.prepareStatement(sql);
@@ -344,7 +345,7 @@ public class BoardDao {
 		ResultSet rs = null;
 		
 		try {
-			conn = getConnection();
+			conn = datasource.getConnection();
 			
 			String sql = 
 				" select no, title, content, group_no, order_no, depth, users_no" +
