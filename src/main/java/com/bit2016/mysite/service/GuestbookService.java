@@ -10,21 +10,30 @@ import com.bit2016.mysite.vo.GuestbookVo;
 
 @Service
 public class GuestbookService {
-
+	
 	@Autowired
 	private GuestbookDao guestbookDao;
 	
-	
-	public List<GuestbookVo> getList(){
-		List<GuestbookVo> list = guestbookDao.getList();
-		return list;
+	public List<GuestbookVo> getMessageList() {
+		return guestbookDao.getList();
+	}
+
+	public List<GuestbookVo> getMessageList( int page ) {
+		return guestbookDao.getList( page );
 	}
 	
-	public void insert(GuestbookVo vo){
-		guestbookDao.insert(vo);
+	public void deleteMessage( GuestbookVo vo ){
+		guestbookDao.delete( vo );
 	}
 	
-	public void delete(GuestbookVo vo){
-		guestbookDao.delete(vo);
+	public void writeMessage( GuestbookVo vo ) {
+		Long no = guestbookDao.insert(vo);
+		System.out.println( no );
 	}
+	
+	public GuestbookVo writeMessage2( GuestbookVo vo ) {
+		Long no = guestbookDao.insert(vo);
+		System.out.println( no );
+		return null;
+	}	
 }

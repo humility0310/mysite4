@@ -18,16 +18,21 @@ public class UserService {
 
 	public UserVo login(String email, String password) {
 		UserVo userVo = null;
-			userVo = userDao.get(email, password);
-			
+		userVo = userDao.get(email, password);
+
 		return userVo;
 	}
 
 	public UserVo getUser(Long no) {
 		return userDao.get(no);
 	}
-	
-	public void updateUser(UserVo vo){
+
+	public void updateUser(UserVo vo) {
 		userDao.update(vo);
+	}
+
+	public boolean emailExists(String email) {
+
+		return (userDao.get(email) != null);
 	}
 }
