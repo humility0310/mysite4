@@ -37,8 +37,13 @@
 			</bean>
 
 
+
 		</mvc:message-converters>
 
+		<!-- argument resolver -->
+		<mvc:argument-resolvers>
+			<bean class="com.bit2016.security.AuthUserHandlerMethodArgumentResolver" />
+		</mvc:argument-resolvers>
 
 
 	</mvc:annotation-driven>
@@ -65,14 +70,10 @@
 
 
 
-	<!-- Interceptors 
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/board/**" />
-			<bean class="com.bit2016.mysite.interceptor.MyInterceptor2" />
-		</mvc:interceptor>
-	</mvc:interceptors>-->
-	
+	<!-- Interceptors <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/board/**" 
+		/> <bean class="com.bit2016.mysite.interceptor.MyInterceptor2" /> </mvc:interceptor> 
+		</mvc:interceptors> -->
+
 	<!-- Interceptors -->
 	<mvc:interceptors>
 		<mvc:interceptor>
@@ -80,14 +81,14 @@
 			<bean class="com.bit2016.security.AuthLoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
+
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/user/logout" />
 			<bean class="com.bit2016.security.AuthLogoutInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
+
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />

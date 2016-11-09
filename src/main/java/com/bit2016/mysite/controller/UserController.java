@@ -1,7 +1,5 @@
 package com.bit2016.mysite.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bit2016.mysite.service.UserService;
 import com.bit2016.mysite.vo.UserVo;
+import com.bit2016.security.Auth;
+import com.bit2016.security.AuthUser;
 
 @Controller
 @RequestMapping("/user")
@@ -43,29 +43,23 @@ public class UserController {
 		return "user/joinsuccess";
 	}
 
-
+	@Auth
 	@RequestMapping("/modifyform")
-	public String modifyFrom(HttpSession session, Model model) {
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		// 접근제한
-		if (authUser == null) {
-			return "redirect:/user/loginform";
-		}
+	public String modifyFrom(@AuthUser UserVo authUser, Model model) {
 
 		UserVo vo = userService.getUser(authUser.getNo());
 		model.addAttribute("userVo", vo);
 		return "user/modifyform";
 	}
 
+	@Auth
 	@RequestMapping("/modify")
-	public String modify(HttpSession session, @ModelAttribute UserVo vo) {
-
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-
-		// 접근제한
-		if (authUser == null) {
-			return "redirect:/user/loginform";
-		}
+	public String modify(@AuthUser UserVo authUser, @ModelAttribute UserVo vo) {
+		/*
+		 * UserVo authUser = (UserVo) session.getAttribute("authUser");
+		 * 
+		 * // 접근제한 if (authUser == null) { return "redirect:/user/loginform"; }
+		 */
 
 		vo.setNo(authUser.getNo());
 		userService.updateUser(vo);
