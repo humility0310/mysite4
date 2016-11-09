@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bit2016.mysite.service.GuestbookService;
 import com.bit2016.mysite.vo.GuestbookVo;
+import com.bit2016.security.Auth;
 
 @Controller
 @RequestMapping("/guestbook")
@@ -20,6 +21,7 @@ public class GuestbookController {
 	@Autowired
 	private GuestbookService guestbookService;
 
+	
 	@RequestMapping("")
 	public String index(Model model) {
 		List<GuestbookVo> list = guestbookService.getMessageList();
@@ -27,6 +29,7 @@ public class GuestbookController {
 		return "guestbook/list";
 	}
 
+	@Auth
 	@RequestMapping("/deleteform/{no}")
 	public String deleteform(@PathVariable("no") Long no, Model model) {
 		model.addAttribute("no", no);
