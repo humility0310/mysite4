@@ -63,5 +63,15 @@ public class BoardService {
 
 		return map;
 	}
-
+	
+	public BoardVo get(Long boardNo){
+		return boardDao.get(boardNo);
+	}
+	
+	public void insert(BoardVo vo){
+		boardDao.insert(vo);
+	}
+	public void delete(Long boardNo, Long userNo ){
+		boardDao.delete(boardNo, userNo);
+	}
 }
