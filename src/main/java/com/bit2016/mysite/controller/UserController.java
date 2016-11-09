@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bit2016.mysite.service.UserService;
 import com.bit2016.mysite.vo.UserVo;
@@ -44,27 +43,6 @@ public class UserController {
 		return "user/joinsuccess";
 	}
 
-	@RequestMapping("/login")
-	public String Login(@RequestParam(value = "email", required = true, defaultValue = "") String email,
-			@RequestParam(value = "password", required = true, defaultValue = "") String password,
-			HttpSession session) {
-		UserVo userVo = userService.login(email, password);
-
-		if (userVo == null) {
-			return "redirect:/user/loginform?result=fail";
-		}
-		// 인증성공/
-		session.setAttribute("authUser", userVo);
-		return "redirect:/";
-	}
-
-	@RequestMapping("/logout")
-	public String logout(HttpSession session) {
-
-		session.removeAttribute("authUser");
-		session.invalidate();
-		return "redirect:/";
-	}
 
 	@RequestMapping("/modifyform")
 	public String modifyFrom(HttpSession session, Model model) {
@@ -96,15 +74,9 @@ public class UserController {
 		return "redirect:/user/modifyform?update=success";
 	}
 
-	
-	
-	
-	
 	/*
-	@ExceptionHandler(UserDaoException.class)
-	public String handerUserDaoException() {
-		// 1. logging (파일에 내용 저장)
-		// 2. 사용자에게 안내(error) 페이지
-		return "error/500";
-	}*/
+	 * @ExceptionHandler(UserDaoException.class) public String
+	 * handerUserDaoException() { // 1. logging (파일에 내용 저장) // 2. 사용자에게
+	 * 안내(error) 페이지 return "error/500"; }
+	 */
 }
