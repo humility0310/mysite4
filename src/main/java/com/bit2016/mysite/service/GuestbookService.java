@@ -22,8 +22,8 @@ public class GuestbookService {
 		return guestbookDao.getList(page);
 	}
 
-	public void deleteMessage(GuestbookVo vo) {
-		guestbookDao.delete(vo);
+	public boolean deleteMessage(GuestbookVo vo) {
+		return guestbookDao.delete(vo);
 	}
 
 	public void writeMessage(GuestbookVo vo) {

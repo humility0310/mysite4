@@ -13,8 +13,10 @@ public class GuestbookDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public void delete(GuestbookVo vo) {
-		sqlSession.delete("guestbook.delete", vo);
+	public boolean delete(GuestbookVo vo) {
+		int result = 0;
+		result = sqlSession.delete("guestbook.delete", vo);
+		return result ==1;
 	}
 
 	public Long insert(GuestbookVo vo) {

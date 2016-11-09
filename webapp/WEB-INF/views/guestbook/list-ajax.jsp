@@ -112,41 +112,33 @@
 									var no = $("#hidden-no").val();
 									var password = $("#password-delete").val();
 									// 삭제 요청
-									$
-											.ajax({
-												url : "${pageContext.request.contextPath }/guestbook/api/delete",
-												type : "post",
-												dataType : "json",
-												data : "&no=" + no + "&password=" + password,
-												success : function(response) {
-													if (response.result != "success") {
-														console
-																.error(response.message);
-														return;
-													}
+									$.ajax({
+										url : "${pageContext.request.contextPath }/guestbook/api/delete",
+										type : "post",
+										dataType : "json",
+										data : "&no=" + no + "&password=" + password,
+										success : function(response) {
+											if (response.result != "success") {
+												console.error(response.message);
+												return;
+											}
 
-													// 삭제 실패
-													if (response.data == -1) {
-														$(
-																"#dialog-delete-form .validateTips.normal")
-																.hide();
-														$(
-																"#dialog-delete-form .validateTips.error")
-																.show();
-														$("#password-delete")
-																.val("");
-														return;
-													}
-													// 삭제 성공
-													$("#gb-" + response.data).remove();
-													dialogDelete.dialog("close");
-												},
-												error : function(jqXHR, status,
-														e) {
-													console.error(status + ":" + e);
-													dialogDelete.dialog("close");
-												}
-											});
+											// 삭제 실패
+											if (response.data == -1) {
+												$("#dialog-delete-form .validateTips.normal").hide();
+												$("#dialog-delete-form .validateTips.error").show();
+												$("#password-delete").val("");
+												return;
+											}
+											// 삭제 성공
+											$("#gb-" + response.data).remove();
+											dialogDelete.dialog("close");
+										},
+										error : function(jqXHR, status, e) {
+											console.error(status + ":" + e);
+											dialogDelete.dialog("close");
+										}
+									});
 								},
 								"취소" : function() {
 									$(this).dialog("close");

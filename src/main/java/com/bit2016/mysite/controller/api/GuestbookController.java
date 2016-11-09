@@ -50,12 +50,11 @@ public class GuestbookController {
 	@ResponseBody
 	@RequestMapping("/delete")
 	public Map<String, Object> delete(@ModelAttribute GuestbookVo vo) {
-		guestbookService.deleteMessage(vo);
+		boolean result = guestbookService.deleteMessage(vo);
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("result", "success");
-		map.put("data", vo.getNo());
-		
+		map.put( "data", result ? vo.getNo() : -1 );
 		return map;
 	}
 }
